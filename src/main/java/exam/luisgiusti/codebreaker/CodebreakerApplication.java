@@ -10,7 +10,5 @@ public class CodebreakerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CodebreakerApplication.class, args);
-
-
 	}
 }

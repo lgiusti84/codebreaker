@@ -2,6 +2,7 @@ package exam.luisgiusti.codebreaker.controllers;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exam.luisgiusti.codebreaker.domain.CarbonUnit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,55 +26,65 @@ public class MutantControllerTest {
 	@Test
 	public void mutantResponseOK() throws Exception {
 		String[] dna = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
+		CarbonUnit cu = new CarbonUnit();
+		cu.setDna(dna);
 
 		mockMvc.perform(
 				post("/mutant/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(dna)))
+						.content(asJsonString(cu)))
 				.andExpect(status().isOk());
 	}
 
 	@Test
 	public void noMutantResponseForbidden() throws Exception {
 		String[] dna = {"ACACAC", "GTGTGT", "ACACAC", "GTGTGT", "ACACAC", "GTGTGT"};
+		CarbonUnit cu = new CarbonUnit();
+		cu.setDna(dna);
 
 		mockMvc.perform(
 				post("/mutant/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(dna)))
+						.content(asJsonString(cu)))
 				.andExpect(status().isForbidden());
 	}
 
 	@Test
 	public void wrongDNALengthResponseBadRequest() throws Exception {
 		String[] dna = {"ACACACAAAA", "GTGTGT", "ACACAC", "GTGTGT", "ACACAC", "GTGTGT"};
+		CarbonUnit cu = new CarbonUnit();
+		cu.setDna(dna);
 
 		mockMvc.perform(
 				post("/mutant/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(dna)))
+						.content(asJsonString(cu)))
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void wrongDNACharacterResponseBadRequest() throws Exception {
 		String[] dna = {"xCACAC", "GTGTGT", "ACACAC", "GTGTGT", "ACACAC", "GTGTGT"};
+		CarbonUnit cu = new CarbonUnit();
+		cu.setDna(dna);
 
 		mockMvc.perform(
 				post("/mutant/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(dna)))
+						.content(asJsonString(cu)))
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void wrongDNASizeResponseBadRequest() throws Exception {
 		String[] dna = {"AAA", "CCC", "GGG"};
+		CarbonUnit cu = new CarbonUnit();
+		cu.setDna(dna);
 
 		mockMvc.perform(
 				post("/mutant/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(dna)))
+						.content(asJsonString(cu)))
 				.andExpect(status().isBadRequest());
 	}
 

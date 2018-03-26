@@ -1,20 +1,18 @@
 package exam.luisgiusti.codebreaker.controllers;
 
-import exam.luisgiusti.codebreaker.exceptions.WrongDNAFormatException;
+import exam.luisgiusti.codebreaker.domain.CarbonUnit;
 import exam.luisgiusti.codebreaker.services.DNAAnalyzerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/mutant/")
 public class MutantController {
-	private static final String DNA_REGEX_PATTERN = "^[AGTC]+$";
 	private DNAAnalyzerService dnaAnalyzer;
 
 	@Autowired
@@ -24,27 +22,28 @@ public class MutantController {
 
 	@PostMapping
 	@RequestMapping("")
-	public ResponseEntity checkMutant(@RequestBody String[] dna) {
-		validateDNA(dna);
-		HttpStatus status = dnaAnalyzer.isMutant(dna) ? HttpStatus.OK : HttpStatus.FORBIDDEN;
-		return ResponseEntity.status(status).build();
+	public ResponseEntity checkMutant(@Valid @RequestBody CarbonUnit carbonUnit) {
+		String[] dna = carbonUnit.getDna();
+		HttpStatus status;
+		String body;
+		if(dnaAnalyzer.isMutant(dna)) {
+			status = HttpStatus.OK;
+			body = "Welcome to the brotherhood fellow Mutant!";
+		} else {
+			status = HttpStatus.FORBIDDEN;
+			body = "No humans allowed! We'll come for you later";
+		}
+		return ResponseEntity
+				.status(status)
+				.body(body);
 	}
 
-	@ExceptionHandler(WrongDNAFormatException.class)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity handleWrongType() {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		return ResponseEntity.status(status).build();
-	}
-
-	private void validateDNA(String[] dna) {
-		int length = dna.length;
-		Pattern pattern = Pattern.compile(DNA_REGEX_PATTERN);
-		Stream<String> dnaStream = Arrays.stream(dna);
-
-		boolean wrongDNA = length < 4 || dnaStream.anyMatch(s -> s.length() != length || !pattern.matcher(s).find() );
-
-		if(wrongDNA) {
-			throw new WrongDNAFormatException();
-		}
+		String body = "You are a strange being, we have no quarrel with you (yet)";
+		return ResponseEntity
+				.status(status)
+				.body(body);
 	}
 }
