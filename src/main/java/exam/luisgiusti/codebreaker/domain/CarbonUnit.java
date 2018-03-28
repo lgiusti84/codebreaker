@@ -1,25 +1,27 @@
 package exam.luisgiusti.codebreaker.domain;
 
-import exam.luisgiusti.codebreaker.validators.DNAMatrix;
+import com.fasterxml.jackson.annotation.JsonView;
+import exam.luisgiusti.codebreaker.domain.constraints.DNAMatrix;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 public class CarbonUnit {
+	public interface Input {}
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Lob
 	@DNAMatrix
+	@JsonView(Input.class)
 	private String[] dna;
 	private Boolean isHomoSuperior;
 }

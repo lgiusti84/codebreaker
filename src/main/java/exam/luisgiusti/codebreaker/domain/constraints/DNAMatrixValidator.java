@@ -1,4 +1,4 @@
-package exam.luisgiusti.codebreaker.validators;
+package exam.luisgiusti.codebreaker.domain.constraints;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -14,7 +14,6 @@ public class DNAMatrixValidator implements ConstraintValidator<DNAMatrix, String
 		int length = dna.length;
 		Pattern pattern = Pattern.compile(DNA_REGEX_PATTERN);
 		Stream<String> dnaStream = Arrays.stream(dna);
-
 
 		return length >= 4 && dnaStream.allMatch(s -> s.length() == length && pattern.matcher(s).find() );
 	}

@@ -1,4 +1,4 @@
-package exam.luisgiusti.codebreaker.validators;
+package exam.luisgiusti.codebreaker.domain.constraints;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
