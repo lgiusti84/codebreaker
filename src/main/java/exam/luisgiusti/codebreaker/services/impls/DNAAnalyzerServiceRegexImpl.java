@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 @Service
 @Profile({"regex", "default"})
@@ -19,22 +21,28 @@ public class DNAAnalyzerServiceRegexImpl implements DNAAnalyzerService {
 
 	@Override
 	public boolean isMutant(String[] dna) {
-		Stream<String> dnaStream = Arrays.stream(dna);
 		Pattern pattern = Pattern.compile(MUTANT_REGEX_PATTERN);
 
-		long count = dnaStream
-				.filter(s -> pattern.matcher(s).find())
-				.count();
+		long count = 0;
+		List<String> allDirections = new ArrayList<>();
 
-		count += SquareStringArrayReorganizer.rotate(dna).stream()
-				.filter(s -> pattern.matcher(s).find())
-				.count();
+		allDirections.addAll(Arrays.asList(dna));
+		allDirections.addAll(SquareStringArrayReorganizer.rotate(dna));
+		allDirections.addAll(SquareStringArrayReorganizer.diagonalize(dna));
 
-		count += SquareStringArrayReorganizer.diagonalize(dna).stream()
-				.filter(s -> pattern.matcher(s).find())
-				.count();
+		for(String str : allDirections) {
+			int pos = 0;
+			Matcher matcher = pattern.matcher(str);
+			while(matcher.find(pos)) {
+				count++;
+				if(++count >= minMutant4InLineCount) {
+					return true;
+				}
+				pos = matcher.end();
+			}
+		}
 
-		return count >= minMutant4InLineCount;
+		return false ;
 	}
 
 }

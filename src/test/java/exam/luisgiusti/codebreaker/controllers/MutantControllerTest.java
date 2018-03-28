@@ -37,6 +37,19 @@ public class MutantControllerTest {
 	}
 
 	@Test
+	public void mutantResponseOK2() throws Exception {
+		String[] dna = {"AAAACCAAAA","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT"};
+		CarbonUnit cu = new CarbonUnit();
+		cu.setDna(dna);
+
+		mockMvc.perform(
+				post("/mutant/")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(asJsonString(cu)))
+				.andExpect(status().isOk());
+	}
+
+	@Test
 	public void noMutantResponseForbidden() throws Exception {
 		String[] dna = {"ACACAC", "GTGTGT", "ACACAC", "GTGTGT", "ACACAC", "GTGTGT"};
 		CarbonUnit cu = new CarbonUnit();
@@ -88,7 +101,7 @@ public class MutantControllerTest {
 				.andExpect(status().isBadRequest());
 	}
 
-	public static String asJsonString(final Object obj) {
+	private static String asJsonString(final Object obj) {
 		try {
 			return (new ObjectMapper()).writeValueAsString(obj);
 		} catch (Exception e) {
