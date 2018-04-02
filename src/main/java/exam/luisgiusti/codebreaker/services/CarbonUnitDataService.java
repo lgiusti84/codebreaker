@@ -6,5 +6,5 @@ public interface CarbonUnitDataService {
 	boolean existsInDB(String[] dna);
 	int countHomoSuperior();
 	int countHomoSapiens();
-	void saveCarbonUnit(CarbonUnit carbonUnit);
+	CarbonUnit saveCarbonUnit(CarbonUnit carbonUnit);
 }

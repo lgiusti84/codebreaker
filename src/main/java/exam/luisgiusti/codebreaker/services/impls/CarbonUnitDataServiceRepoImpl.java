@@ -36,11 +36,15 @@ public class CarbonUnitDataServiceRepoImpl implements CarbonUnitDataService {
 	}
 
 	@Override
-	public void saveCarbonUnit(CarbonUnit carbonUnit) {
+	public CarbonUnit saveCarbonUnit(CarbonUnit carbonUnit) {
 		String[] dna = carbonUnit.getDna();
+		CarbonUnit result;
 		if(!existsInDB(dna)) {
 			carbonUnit.setIsHomoSuperior(dnaAnalyzerService.isMutant(dna));
-			repo.save(carbonUnit);
+			result = repo.save(carbonUnit);
+		} else {
+			result = repo.findByDna(dna).orElse(carbonUnit);
 		}
+		return result;
 	}
 }
