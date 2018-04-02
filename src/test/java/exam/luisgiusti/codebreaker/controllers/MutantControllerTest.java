@@ -2,103 +2,71 @@ package exam.luisgiusti.codebreaker.controllers;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exam.luisgiusti.codebreaker.TestConstants;
 import exam.luisgiusti.codebreaker.domain.CarbonUnit;
+import exam.luisgiusti.codebreaker.services.CarbonUnitDataService;
+import exam.luisgiusti.codebreaker.services.DNAAnalyzerService;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
 public class MutantControllerTest {
+	@InjectMocks
+	private MutantController controller;
+	@Mock
+	private DNAAnalyzerService dnaAnalyzer;
+	@Mock
+	private CarbonUnitDataService dataService;
 
-	@Autowired
 	private MockMvc mockMvc;
 
-	@Test
-	public void mutantResponseOK() throws Exception {
-		String[] dna = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
-
-		mockMvc.perform(
-				post("/mutant/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(cu)))
-				.andExpect(status().isOk());
+	@Before
+	public void setUp(){
+		MockitoAnnotations.initMocks(this);
+		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 	}
 
 	@Test
-	public void mutantResponseOK2() throws Exception {
-		String[] dna = {"AAAACCAAAA","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT","ACACACACAC","GTGTGTGTGT"};
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
+	public void mutantResponseOK() throws Exception {
+		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.MUTANT_DNA, true);
+		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(true);
+		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
 
 		mockMvc.perform(
 				post("/mutant/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(cu)))
+						.content(asJsonString(mutant)))
 				.andExpect(status().isOk());
+
+		verify(dnaAnalyzer, times(1)).isMutant(any(String[].class));
+		verify(dataService, times(1)).saveCarbonUnit(any(CarbonUnit.class));
+		verifyNoMoreInteractions(dnaAnalyzer, dataService);
 	}
 
 	@Test
 	public void noMutantResponseForbidden() throws Exception {
-		String[] dna = {"ACACAC", "GTGTGT", "ACACAC", "GTGTGT", "ACACAC", "GTGTGT"};
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
+		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.HUMAN_DNA, true);
+		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(false);
+		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
 
 		mockMvc.perform(
 				post("/mutant/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(cu)))
+						.content(asJsonString(mutant)))
 				.andExpect(status().isForbidden());
-	}
 
-	@Test
-	public void wrongDNALengthResponseBadRequest() throws Exception {
-		String[] dna = {"ACACACAAAA", "GTGTGT", "ACACAC", "GTGTGT", "ACACAC", "GTGTGT"};
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
-
-		mockMvc.perform(
-				post("/mutant/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(cu)))
-				.andExpect(status().isBadRequest());
-	}
-
-	@Test
-	public void wrongDNACharacterResponseBadRequest() throws Exception {
-		String[] dna = {"xCACAC", "GTGTGT", "ACACAC", "GTGTGT", "ACACAC", "GTGTGT"};
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
-
-		mockMvc.perform(
-				post("/mutant/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(cu)))
-				.andExpect(status().isBadRequest());
-	}
-
-	@Test
-	public void wrongDNASizeResponseBadRequest() throws Exception {
-		String[] dna = {"AAA", "CCC", "GGG"};
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
-
-		mockMvc.perform(
-				post("/mutant/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(asJsonString(cu)))
-				.andExpect(status().isBadRequest());
+		verify(dnaAnalyzer, times(1)).isMutant(any(String[].class));
+		verify(dataService, times(1)).saveCarbonUnit(any(CarbonUnit.class));
+		verifyNoMoreInteractions(dnaAnalyzer, dataService);
 	}
 
 	private static String asJsonString(final Object obj) {
