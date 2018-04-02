@@ -5,12 +5,11 @@ import exam.luisgiusti.codebreaker.services.impls.DNAAnalyzerServiceRegexImpl;
 import exam.luisgiusti.codebreaker.services.impls.DNAAnalyzerServiceSimpleImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@PropertySource("classpath:dna.properties")
 public class DNAAnalyzerServiceTest {
 
 	private DNAAnalyzerService regexService;
@@ -20,6 +19,8 @@ public class DNAAnalyzerServiceTest {
 	public void setUp() {
 		regexService = new DNAAnalyzerServiceRegexImpl();
 		simpleService = new DNAAnalyzerServiceSimpleImpl();
+		ReflectionTestUtils.setField(regexService, "minMutant4InLineCount", 2);
+		ReflectionTestUtils.setField(simpleService, "minMutant4InLineCount", 2);
 	}
 
 	@Test
