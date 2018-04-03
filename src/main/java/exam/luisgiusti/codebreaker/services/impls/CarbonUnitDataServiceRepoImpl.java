@@ -47,4 +47,9 @@ public class CarbonUnitDataServiceRepoImpl implements CarbonUnitDataService {
 		}
 		return result;
 	}
+
+	@Override
+	public void deleteAll() {
+		repo.deleteAll();
+	}
 }

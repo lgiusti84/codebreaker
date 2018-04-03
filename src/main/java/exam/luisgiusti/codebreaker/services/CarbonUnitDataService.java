@@ -7,4 +7,5 @@ public interface CarbonUnitDataService {
 	int countHomoSuperior();
 	int countHomoSapiens();
 	CarbonUnit saveCarbonUnit(CarbonUnit carbonUnit);
+	void deleteAll();
 }
