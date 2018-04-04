@@ -3,6 +3,7 @@ package exam.luisgiusti.codebreaker.controllers;
 import exam.luisgiusti.codebreaker.domain.Stats;
 import exam.luisgiusti.codebreaker.services.CarbonUnitDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +41,15 @@ public class StatsController {
 					.contentType(MediaType.APPLICATION_JSON)
 					.body("There are no records in our database.");
 		}
+	}
+
+
+	@GetMapping("reset")
+	public ResponseEntity resetStats() {
+		carbonUnitDataService.deleteAll();
+		return ResponseEntity
+				.status(HttpStatus.MOVED_PERMANENTLY)
+				.header(HttpHeaders.LOCATION, "/stats/")
+				.build();
 	}
 }

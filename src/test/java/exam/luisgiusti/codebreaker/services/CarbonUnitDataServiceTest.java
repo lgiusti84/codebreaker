@@ -74,6 +74,7 @@ public class CarbonUnitDataServiceTest {
 		verify(repo, times(1)).existsByDna(any(String[].class));
 		verify(analyzerService, times(1)).isMutant(any(String[].class));
 		verify(repo, times(1)).save(any(CarbonUnit.class));
+		verifyNoMoreInteractions(repo, analyzerService);
 	}
 
 	@Test
@@ -94,7 +95,14 @@ public class CarbonUnitDataServiceTest {
 
 		verify(repo, times(1)).existsByDna(any(String[].class));
 		verify(repo, times(1)).findByDna(any(String[].class));
-		verify(analyzerService, times(0)).isMutant(any(String[].class));
-		verify(repo, times(0)).save(any(CarbonUnit.class));
+		verifyNoMoreInteractions(repo, analyzerService);
+	}
+
+	@Test
+	public void deleteAll() {
+		service.deleteAll();
+
+		verify(repo, times(1)).deleteAll();
+		verifyNoMoreInteractions(repo);
 	}
 }

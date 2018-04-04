@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class StatsControllerTest {
 	@InjectMocks
@@ -55,6 +54,16 @@ public class StatsControllerTest {
 
 		verify(carbonUnitDataService, times(1)).countHomoSapiens();
 		verify(carbonUnitDataService, times(1)).countHomoSuperior();
+		verifyNoMoreInteractions(carbonUnitDataService);
+	}
+
+	@Test
+	public void resetStats() throws Exception {
+		mockMvc.perform(get("/stats/reset"))
+			.andExpect(status().isMovedPermanently())
+			.andExpect(redirectedUrl("/stats/"));
+
+		verify(carbonUnitDataService, times(1)).deleteAll();
 		verifyNoMoreInteractions(carbonUnitDataService);
 	}
 
