@@ -1,5 +1,8 @@
 # Magneto's Code breaker - Examen para MercadoLibre
-Examen mutantes, rest API
+
+Examen mutantes, rest API de Mercado Libre
+
+![alt](https://static1.squarespace.com/static/57436421d51cd42eed1aaa2b/t/59dd39de12abd9781d7ea27a/1507225124111/ICON-DNA.png)
 
 One Paragraph of project description goes here
 
@@ -29,13 +32,15 @@ El API REST solicitado está disponible en http://meli.giusti.net.ar/
   * Acciones: borra los datos de la tabla que contiene los datos de mutantes/humanos y redirecciona a /stats/
 
 
-## Como correrlo
+## Como correrlo en un entorno local
 Conseguir una copia de GIT, correrla con el **perfil de spring: "local"** activado.
 
 Ej:
 1. ir a la ubicacion del achivo pom.xml
-2. ejecutar en consola: mvn spring-boot:run -P local -Dspring.profiles.active=local
-    * se puso tambien el perfil local al llamar a maven (-P local), para asegurar que se corre el dicho perfil, ya que si hay una variable de entorno llamada envname con valor aws, se va a correr el perfil prod
+2. ejecutar en consola: **mvn spring-boot:run -P local -Dspring.profiles.active=local**
+    * se puso tambien el perfil _local_ al llamar a maven (-P local), para asegurar que se corre el dicho perfil, ya que si hay una variable de entorno llamada _envname_ con valor _aws_, se va a correr el perfil prod
+3. la applicacion va a correr en http://localhost:24005/
+    * el servicio que chequea mutantes estaria en: http://localhost:24005/mutant/
 
 ### Tecnologias y servicios utilizados:
 Se utilizó **Java** como el lenguaje de programacion utilizando **Spring Boot 2**.
