@@ -28,7 +28,7 @@ El API REST solicitado está disponible en http://meli.giusti.net.ar/
   * Acciones: devuelve las estadisticas de cantidad de mutantes y humanos en la base de datos (si es que los hay)
 
 * /stats/reset/
-  * Tipo: GET
+  * Tipo: PUT
   * Acciones: borra los datos de la tabla que contiene los datos de mutantes/humanos y redirecciona a /stats/
 
 
@@ -38,7 +38,7 @@ Conseguir una copia de GIT, correrla con el **perfil de spring: "local"** activa
 Ej:
 1. ir a la ubicacion del achivo pom.xml
 2. ejecutar en consola: **mvn spring-boot:run -P local -Dspring.profiles.active=local**
-    * se puso tambien el perfil _local_ al llamar a maven (-P local), para asegurar que se corre el dicho perfil, ya que si hay una variable de entorno llamada _envname_ con valor _aws_, se va a correr el perfil prod
+    * se puso tambien el perfil _local_ al llamar a maven (-P local), para asegurar que se corre dicho perfil, ya que si hay una variable de entorno llamada _envname_ con valor _aws_, se va a correr el perfil prod
 3. la applicacion va a correr en http://localhost:24005/
     * el servicio que chequea mutantes estaria en: http://localhost:24005/mutant/
 
