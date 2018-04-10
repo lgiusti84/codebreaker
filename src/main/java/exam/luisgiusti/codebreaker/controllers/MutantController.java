@@ -38,10 +38,10 @@ public class MutantController {
 		String body;
 		if(isMutant) {
 			status = HttpStatus.OK;
-			body = "Welcome to the brotherhood fellow Mutant!";
+			body = "{\"message\": \"Welcome to the brotherhood fellow Mutant!\"}";
 		} else {
 			status = HttpStatus.FORBIDDEN;
-			body = "No humans allowed! We'll come for you later";
+			body = "{\"message\": \"No humans allowed! We'll come for you later\"}";
 		}
 		return ResponseEntity.status(status).body(body);
 	}
@@ -49,7 +49,7 @@ public class MutantController {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity handleWrongType() {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		String body = "You are a strange being, we have no quarrel with you (yet)";
+		String body = "{\"message\": \"You are a strange being, we have no quarrel with you (yet)\"}";
 		return ResponseEntity
 				.status(status)
 				.body(body);

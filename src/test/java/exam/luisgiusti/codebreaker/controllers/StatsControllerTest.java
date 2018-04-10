@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class StatsControllerTest {
@@ -50,7 +51,7 @@ public class StatsControllerTest {
 
 		mockMvc.perform(get("/stats/"))
 			.andExpect(status().isOk())
-			.andExpect(content().string("There are no records in our database."));
+			.andExpect(content().string("{\"message\": \"There are no records in our database.\"}"));
 
 		verify(carbonUnitDataService, times(1)).countHomoSapiens();
 		verify(carbonUnitDataService, times(1)).countHomoSuperior();
@@ -59,7 +60,7 @@ public class StatsControllerTest {
 
 	@Test
 	public void resetStats() throws Exception {
-		mockMvc.perform(get("/stats/reset"))
+		mockMvc.perform(put("/stats/reset"))
 			.andExpect(status().isMovedPermanently())
 			.andExpect(redirectedUrl("/stats/"));
 

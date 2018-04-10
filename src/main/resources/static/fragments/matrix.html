@@ -1,0 +1,22 @@
+<form name="dnaMatrixForm" ng-controller="dnaController as ctrl" novalidate ng->
+    <div>
+        <button ng-click="increaseMatrixSize()">+</button>
+        {{ matrix.length }}
+        <button ng-click="decreaseMatrixSize()">-</button>
+    </div>
+    <div class="matrix-container">
+        <div ng-repeat="line in matrix" class="matrix-row">
+            <div ng-repeat="c in line" style="display: inline-block" class="matrix-cell">
+                <input type="text" ng-model="c.charVal" maxlength="1" required pattern="{{validRegex}}"
+                       style="width: 16px; height: 16px;"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer" style="text-align: right;">
+        <input type="submit" value="Guardar" class="btn btn-primary" ng-disabled="dnaMatrixForm.$invalid"
+               ng-click="dnaMatrixForm.$valid && sendDna(); dnaMatrixForm.$setPristine();"/>
+        <input type="button" value="Cancelar" class="btn btn-primary"
+               ng-click="dnaMatrixForm.$setPristine(); "/>
+    </div>
+</form>

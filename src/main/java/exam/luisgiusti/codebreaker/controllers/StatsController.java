@@ -39,7 +39,7 @@ public class StatsController {
 		} else {
 			return ResponseEntity
 					.status(HttpStatus.OK)
-					.body("There are no records in our database.");
+					.body("{\"message\": \"There are no records in our database.\"}");
 		}
 	}
 
