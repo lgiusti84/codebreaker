@@ -60,6 +60,17 @@ public class MutantControllerIntegrationTest {
 	}
 
 	@Test
+	public void noMutantResponseForbidden2() throws Exception {
+		CarbonUnit cu = new CarbonUnit(null, TestConstants.HUMAN_DNA_2, null);
+
+		mockMvc.perform(
+				post("/mutant/")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(asJsonString(cu)))
+				.andExpect(status().isForbidden());
+	}
+
+	@Test
 	public void unbalancedDNAResponseBadRequest() throws Exception {
 		CarbonUnit cu = new CarbonUnit(null, TestConstants.UNBALANCED_DNA, null);
 

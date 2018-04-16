@@ -69,6 +69,23 @@ public class MutantControllerTest {
 		verifyNoMoreInteractions(dnaAnalyzer, dataService);
 	}
 
+	@Test
+	public void noMutantResponseForbidden2() throws Exception {
+		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.HUMAN_DNA_2, true);
+		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(false);
+		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
+
+		mockMvc.perform(
+				post("/mutant/")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(asJsonString(mutant)))
+				.andExpect(status().isForbidden());
+
+		verify(dnaAnalyzer, times(1)).isMutant(any(String[].class));
+		verify(dataService, times(1)).saveCarbonUnit(any(CarbonUnit.class));
+		verifyNoMoreInteractions(dnaAnalyzer, dataService);
+	}
+
 	private static String asJsonString(final Object obj) {
 		try {
 			return (new ObjectMapper()).writeValueAsString(obj);
