@@ -46,6 +46,7 @@ public class StatsController {
 
 
 	@PutMapping("reset")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity resetStats() {
 		carbonUnitDataService.deleteAll();
 		return ResponseEntity
