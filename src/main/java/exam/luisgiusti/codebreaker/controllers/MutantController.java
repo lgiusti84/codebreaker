@@ -7,6 +7,7 @@ import exam.luisgiusti.codebreaker.services.CarbonUnitDataService;
 import exam.luisgiusti.codebreaker.services.DNAAnalyzerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,10 @@ public class MutantController {
 			status = HttpStatus.FORBIDDEN;
 			body = "{\"message\": \"No humans allowed! We'll come for you later\"}";
 		}
-		return ResponseEntity.status(status).body(body);
+		return ResponseEntity
+				.status(status)
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(body);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -52,6 +56,7 @@ public class MutantController {
 		String body = "{\"message\": \"You are a strange being, we have no quarrel with you (yet)\"}";
 		return ResponseEntity
 				.status(status)
+				.contentType(MediaType.APPLICATION_JSON)
 				.body(body);
 	}
 }

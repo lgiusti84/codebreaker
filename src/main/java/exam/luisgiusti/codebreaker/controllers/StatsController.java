@@ -39,12 +39,14 @@ public class StatsController {
 		} else {
 			return ResponseEntity
 					.status(HttpStatus.OK)
+					.contentType(MediaType.APPLICATION_JSON)
 					.body("{\"message\": \"There are no records in our database.\"}");
 		}
 	}
 
 
 	@PutMapping("reset")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity resetStats() {
 		carbonUnitDataService.deleteAll();
 		return ResponseEntity

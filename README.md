@@ -4,7 +4,6 @@ Examen mutantes, rest API de Mercado Libre
 
 ![alt](https://static1.squarespace.com/static/57436421d51cd42eed1aaa2b/t/59dd39de12abd9781d7ea27a/1507225124111/ICON-DNA.png)
 
-One Paragraph of project description goes here
 
 ## API:
 El API REST solicitado está disponible en http://meli.giusti.net.ar/
@@ -29,7 +28,10 @@ El API REST solicitado está disponible en http://meli.giusti.net.ar/
 
 * /stats/reset/
   * Tipo: PUT
-  * Acciones: borra los datos de la tabla que contiene los datos de mutantes/humanos y redirecciona a /stats/
+  * Acciones: borra los registros de la tabla que contiene los datos de mutantes/humanos y redirecciona a _/stats/_
+  * Seguridad: _Basic Auth_
+    * **Usuario: admin**
+    * **password: admin**
 
 
 ## Como correrlo en un entorno local

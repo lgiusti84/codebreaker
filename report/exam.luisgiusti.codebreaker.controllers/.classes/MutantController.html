@@ -61,7 +61,7 @@
     100%
   </span>
   <span class="absValue">
-    (19/ 19)
+    (23/ 23)
   </span>
 </td>
 </tr>
@@ -81,60 +81,65 @@
 <i>7</i>&nbsp;import exam.luisgiusti.codebreaker.services.DNAAnalyzerService;
 <i>8</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
 <i>9</i>&nbsp;import org.springframework.http.HttpStatus;
-<i>10</i>&nbsp;import org.springframework.http.ResponseEntity;
-<i>11</i>&nbsp;import org.springframework.web.bind.MethodArgumentNotValidException;
-<i>12</i>&nbsp;import org.springframework.web.bind.annotation.*;
-<i>13</i>&nbsp;
-<i>14</i>&nbsp;import javax.validation.Valid;
-<i>15</i>&nbsp;
-<i>16</i>&nbsp;@RestController
-<i>17</i>&nbsp;@RequestMapping(&quot;/mutant/&quot;)
-<i>18</i>&nbsp;public class MutantController {
-<i>19</i>&nbsp;	private DNAAnalyzerService dnaAnalyzer;
-<i>20</i>&nbsp;	private CarbonUnitDataService dataService;
-<i>21</i>&nbsp;
-<i>22</i>&nbsp;	@Autowired
-<b class="fc"><i>23</i>&nbsp;	public MutantController(DNAAnalyzerService dnaAnalyzer, CarbonUnitDataService dataService) {</b>
-<b class="fc"><i>24</i>&nbsp;		this.dnaAnalyzer = dnaAnalyzer;</b>
-<b class="fc"><i>25</i>&nbsp;		this.dataService = dataService;</b>
-<b class="fc"><i>26</i>&nbsp;	}</b>
-<i>27</i>&nbsp;
-<i>28</i>&nbsp;	@PostMapping
-<i>29</i>&nbsp;	@RequestMapping(&quot;&quot;)
-<i>30</i>&nbsp;	public ResponseEntity checkMutant(@Valid @RequestBody @JsonView(Input.class) CarbonUnit carbonUnit) {
-<b class="fc"><i>31</i>&nbsp;		String[] dna = carbonUnit.getDna();</b>
-<b class="fc"><i>32</i>&nbsp;		boolean isMutant = dnaAnalyzer.isMutant(dna);</b>
-<i>33</i>&nbsp;
-<b class="fc"><i>34</i>&nbsp;		carbonUnit.setIsHomoSuperior(isMutant);</b>
-<b class="fc"><i>35</i>&nbsp;		dataService.saveCarbonUnit(carbonUnit);</b>
-<i>36</i>&nbsp;
-<i>37</i>&nbsp;		HttpStatus status;
-<i>38</i>&nbsp;		String body;
-<b class="fc"><i>39</i>&nbsp;		if(isMutant) {</b>
-<b class="fc"><i>40</i>&nbsp;			status = HttpStatus.OK;</b>
-<b class="fc"><i>41</i>&nbsp;			body = &quot;Welcome to the brotherhood fellow Mutant!&quot;;</b>
-<i>42</i>&nbsp;		} else {
-<b class="fc"><i>43</i>&nbsp;			status = HttpStatus.FORBIDDEN;</b>
-<b class="fc"><i>44</i>&nbsp;			body = &quot;No humans allowed! We&#39;ll come for you later&quot;;</b>
-<i>45</i>&nbsp;		}
-<b class="fc"><i>46</i>&nbsp;		return ResponseEntity.status(status).body(body);</b>
-<i>47</i>&nbsp;	}
-<i>48</i>&nbsp;
-<i>49</i>&nbsp;	@ExceptionHandler(MethodArgumentNotValidException.class)
-<i>50</i>&nbsp;	public ResponseEntity handleWrongType() {
-<b class="fc"><i>51</i>&nbsp;		HttpStatus status = HttpStatus.BAD_REQUEST;</b>
-<b class="fc"><i>52</i>&nbsp;		String body = &quot;You are a strange being, we have no quarrel with you (yet)&quot;;</b>
-<b class="fc"><i>53</i>&nbsp;		return ResponseEntity</b>
-<b class="fc"><i>54</i>&nbsp;				.status(status)</b>
-<b class="fc"><i>55</i>&nbsp;				.body(body);</b>
-<i>56</i>&nbsp;	}
-<i>57</i>&nbsp;}
+<i>10</i>&nbsp;import org.springframework.http.MediaType;
+<i>11</i>&nbsp;import org.springframework.http.ResponseEntity;
+<i>12</i>&nbsp;import org.springframework.web.bind.MethodArgumentNotValidException;
+<i>13</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import javax.validation.Valid;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;@RestController
+<i>18</i>&nbsp;@RequestMapping(&quot;/mutant/&quot;)
+<i>19</i>&nbsp;public class MutantController {
+<i>20</i>&nbsp;	private DNAAnalyzerService dnaAnalyzer;
+<i>21</i>&nbsp;	private CarbonUnitDataService dataService;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;	@Autowired
+<b class="fc"><i>24</i>&nbsp;	public MutantController(DNAAnalyzerService dnaAnalyzer, CarbonUnitDataService dataService) {</b>
+<b class="fc"><i>25</i>&nbsp;		this.dnaAnalyzer = dnaAnalyzer;</b>
+<b class="fc"><i>26</i>&nbsp;		this.dataService = dataService;</b>
+<b class="fc"><i>27</i>&nbsp;	}</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	@PostMapping
+<i>30</i>&nbsp;	@RequestMapping(&quot;&quot;)
+<i>31</i>&nbsp;	public ResponseEntity checkMutant(@Valid @RequestBody @JsonView(Input.class) CarbonUnit carbonUnit) {
+<b class="fc"><i>32</i>&nbsp;		String[] dna = carbonUnit.getDna();</b>
+<b class="fc"><i>33</i>&nbsp;		boolean isMutant = dnaAnalyzer.isMutant(dna);</b>
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;		carbonUnit.setIsHomoSuperior(isMutant);</b>
+<b class="fc"><i>36</i>&nbsp;		dataService.saveCarbonUnit(carbonUnit);</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;		HttpStatus status;
+<i>39</i>&nbsp;		String body;
+<b class="fc"><i>40</i>&nbsp;		if(isMutant) {</b>
+<b class="fc"><i>41</i>&nbsp;			status = HttpStatus.OK;</b>
+<b class="fc"><i>42</i>&nbsp;			body = &quot;{\&quot;message\&quot;: \&quot;Welcome to the brotherhood fellow Mutant!\&quot;}&quot;;</b>
+<i>43</i>&nbsp;		} else {
+<b class="fc"><i>44</i>&nbsp;			status = HttpStatus.FORBIDDEN;</b>
+<b class="fc"><i>45</i>&nbsp;			body = &quot;{\&quot;message\&quot;: \&quot;No humans allowed! We&#39;ll come for you later\&quot;}&quot;;</b>
+<i>46</i>&nbsp;		}
+<b class="fc"><i>47</i>&nbsp;		return ResponseEntity</b>
+<b class="fc"><i>48</i>&nbsp;				.status(status)</b>
+<b class="fc"><i>49</i>&nbsp;				.contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc"><i>50</i>&nbsp;				.body(body);</b>
+<i>51</i>&nbsp;	}
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;	@ExceptionHandler(MethodArgumentNotValidException.class)
+<i>54</i>&nbsp;	public ResponseEntity handleWrongType() {
+<b class="fc"><i>55</i>&nbsp;		HttpStatus status = HttpStatus.BAD_REQUEST;</b>
+<b class="fc"><i>56</i>&nbsp;		String body = &quot;{\&quot;message\&quot;: \&quot;You are a strange being, we have no quarrel with you (yet)\&quot;}&quot;;</b>
+<b class="fc"><i>57</i>&nbsp;		return ResponseEntity</b>
+<b class="fc"><i>58</i>&nbsp;				.status(status)</b>
+<b class="fc"><i>59</i>&nbsp;				.contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc"><i>60</i>&nbsp;				.body(body);</b>
+<i>61</i>&nbsp;	}
+<i>62</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2018-04-03 08:59</div>
+    <div style="float:right;">generated on 2018-04-16 12:21</div>
 </div>
 </body>
 </html>

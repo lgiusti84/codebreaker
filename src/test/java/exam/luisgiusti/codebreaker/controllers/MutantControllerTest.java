@@ -30,7 +30,7 @@ public class MutantControllerTest {
 	private MockMvc mockMvc;
 
 	@Before
-	public void setUp(){
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 	}
@@ -55,6 +55,23 @@ public class MutantControllerTest {
 	@Test
 	public void noMutantResponseForbidden() throws Exception {
 		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.HUMAN_DNA, true);
+		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(false);
+		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
+
+		mockMvc.perform(
+				post("/mutant/")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(asJsonString(mutant)))
+				.andExpect(status().isForbidden());
+
+		verify(dnaAnalyzer, times(1)).isMutant(any(String[].class));
+		verify(dataService, times(1)).saveCarbonUnit(any(CarbonUnit.class));
+		verifyNoMoreInteractions(dnaAnalyzer, dataService);
+	}
+
+	@Test
+	public void noMutantResponseForbidden2() throws Exception {
+		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.HUMAN_DNA_2, true);
 		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(false);
 		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
 
