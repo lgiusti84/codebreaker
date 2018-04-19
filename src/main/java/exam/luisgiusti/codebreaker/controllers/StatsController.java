@@ -38,9 +38,9 @@ public class StatsController {
 					.body(mutantStats);
 		} else {
 			return ResponseEntity
-					.status(HttpStatus.OK)
+					.status(HttpStatus.NO_CONTENT)
 					.contentType(MediaType.APPLICATION_JSON)
-					.body("{\"message\": \"There are no records in our database.\"}");
+					.build();
 		}
 	}
 
