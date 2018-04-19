@@ -50,8 +50,7 @@ public class StatsControllerTest {
 		when(carbonUnitDataService.countHomoSuperior()).thenReturn(0);
 
 		mockMvc.perform(get("/stats/"))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.message").value("There are no records in our database."));
+				.andExpect(status().isNoContent());
 
 		verify(carbonUnitDataService, times(1)).countHomoSapiens();
 		verify(carbonUnitDataService, times(1)).countHomoSuperior();
