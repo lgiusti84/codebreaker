@@ -17,6 +17,7 @@ body {
   -ms-flex-pack: center;
   -webkit-box-pack: center;
   justify-content: center;
+  background-image: url("/resources/imgs/trianglify.png");
 }
 
 
@@ -86,4 +87,12 @@ input[type=text] {
 .no-padding {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.mastfoot {
+  color: white;
+
+  a {
+    color: yellow;
+  }
 }
