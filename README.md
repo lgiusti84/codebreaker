@@ -32,6 +32,7 @@ El API REST solicitado está disponible en http://meli.giusti.net.ar/
   * Seguridad: _Basic Auth_
     * **Usuario: admin**
     * **password: admin**
+  * Este punto no estaba contemplado en el ejercicio
 
 
 ## Como correrlo en un entorno local
@@ -57,3 +58,12 @@ El DNS utilizado es el Route 53 de Amazon.
 Luis J. Giusti
 * [mail](mailto:lgiusti84@gmail.com)
 * [linkedin](https://www.linkedin.com/in/luisgiusti/)
+
+---
+
+##Extra
+
+Se agrego una interfaz grafica simple para analizar y ver los resultados provistos por el API
+No se implemento la funcion que resetea los datos de la base (hay que acceder por el API, ver mas arriba).
+
+La misma se puede visitar en el directorio root, la version online esta en: [link](http://meli.giusti.net.ar/)

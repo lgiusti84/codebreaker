@@ -1,22 +1,27 @@
-<form name="dnaMatrixForm" ng-controller="dnaController as ctrl" novalidate ng->
-    <div>
-        <button ng-click="increaseMatrixSize()">+</button>
-        {{ matrix.length }}
-        <button ng-click="decreaseMatrixSize()">-</button>
-    </div>
+<form id="dnaMatrix" name="dnaMatrixForm" novalidate>
     <div class="matrix-container">
-        <div ng-repeat="line in matrix" class="matrix-row">
-            <div ng-repeat="c in line" style="display: inline-block" class="matrix-cell">
-                <input type="text" ng-model="c.charVal" maxlength="1" required pattern="{{validRegex}}"
-                       style="width: 16px; height: 16px;"/>
+        <div class="matrix-header">
+            <button ng-click="increaseMatrixSize()" class="btn btn-outline-primary">+</button>
+            <h3 class="matrix-row-counter">{{ matrix.length }}</h3>
+            <button ng-click="decreaseMatrixSize()" class="btn btn-outline-primary">-</button>
+        </div>
+        <div class="matrix">
+            <div ng-repeat="line in matrix" class="matrix-row">
+                <div ng-repeat="c in line" style="display: inline-block" class="matrix-cell">
+                    <input type="text" ng-model="c.charVal" maxlength="1" required pattern="{{validRegex}}"
+                           class="matrix-input"/>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="card-footer" style="text-align: right;">
-        <input type="submit" value="Guardar" class="btn btn-primary" ng-disabled="dnaMatrixForm.$invalid"
-               ng-click="dnaMatrixForm.$valid && sendDna(); dnaMatrixForm.$setPristine();"/>
-        <input type="button" value="Cancelar" class="btn btn-primary"
-               ng-click="dnaMatrixForm.$setPristine(); "/>
+        <div class="matrix-footer row no-padding">
+            <div class="col-sm-6 no-padding">
+                <input type="submit" value="TEST" class="btn btn-primary" ng-disabled="dnaMatrixForm.$invalid"
+                       ng-click="dnaMatrixForm.$valid && sendDna(); dnaMatrixForm.$setPristine();"/>
+            </div>
+            <div class="col-sm-6 no-padding">
+                <input type="button" value="RESET" class="btn btn-secondary"
+                       ng-click="resetForm(); dnaMatrixForm.$setPristine();"/>
+            </div>
+        </div>
     </div>
 </form>
