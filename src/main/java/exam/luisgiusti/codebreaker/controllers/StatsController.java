@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,13 +38,15 @@ public class StatsController {
 					.body(mutantStats);
 		} else {
 			return ResponseEntity
-					.status(HttpStatus.OK)
-					.body("There are no records in our database.");
+					.status(HttpStatus.NO_CONTENT)
+					.contentType(MediaType.APPLICATION_JSON)
+					.build();
 		}
 	}
 
 
-	@GetMapping("reset")
+	@PutMapping("reset")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity resetStats() {
 		carbonUnitDataService.deleteAll();
 		return ResponseEntity

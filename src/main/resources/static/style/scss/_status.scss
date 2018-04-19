@@ -1,0 +1,75 @@
+$bar-height: 50px;
+
+.status-row {
+  border-bottom-left-radius: $bar-height;
+  border-bottom-right-radius-radius: $bar-height;
+  overflow: hidden;
+}
+status-bar {
+  box-shadow: inset 4px 4px 10px #aaa;
+  background: #dfdfdf;
+  height: $bar-height;
+  line-height: $bar-height;
+}
+
+.status {
+  position: relative;
+  height: $bar-height;
+
+  > * {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    transition: all 0.5s;
+    color: white;
+    font-weight: bold;
+    line-height: $bar-height;
+    text-overflow: clip;
+  }
+
+  .mutants-bar {
+    left: 0;
+    width: 0;
+    background-color: darkred;
+    text-align: right;
+
+    &:after {
+      content: "MUTANTES";
+      text-align: left;
+    }
+  }
+  .humans-bar {
+    right: 0;
+    width: 0;
+    background-color: purple;
+    text-align: left;
+
+    &:after {
+      content: "HUMANOS";
+      text-align: right;
+    }
+  }
+  .mutants-bar:after, .humans-bar:after {
+    position: absolute;
+    top: -2px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: 0.2;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px black;
+    padding: 0 32px;
+    min-width: 220px;
+  }
+
+  .percent {
+    width: $bar-height - 10px;
+    height: $bar-height - 10px;
+    line-height: $bar-height - 10px;
+    top: 5px; // 10px / 2
+    border-radius: 50%;
+    color: #444;
+    background-color: white;
+    text-align: center;
+  }
+}

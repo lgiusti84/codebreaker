@@ -35,7 +35,7 @@ public class DNAAnalyzerServiceRegexImpl implements DNAAnalyzerService {
 			Matcher matcher = pattern.matcher(str);
 			while(matcher.find(pos)) {
 				count++;
-				if(++count >= minMutant4InLineCount) {
+				if(count >= minMutant4InLineCount) {
 					return true;
 				}
 				pos = matcher.end();

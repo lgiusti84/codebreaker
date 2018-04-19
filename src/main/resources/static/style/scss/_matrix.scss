@@ -1,0 +1,68 @@
+$cell-size: 24px;
+$input-size: 16px;
+$header-height: 60px;
+$footer-height: 40px;
+
+.cover-heading {
+  text-align: left;
+  padding: 5px 16px;
+}
+.matrix-container {
+  position: relative;
+  width: 100%;
+
+  .matrix-header {
+    height: $header-height;
+    padding-top: 16px;
+
+    .matrix-row-counter {
+      width: 36px;
+      margin: 0 16px;
+      display: inline-block;
+      position: relative;
+      top: 5px;
+    }
+
+    .btn {
+      width: 40px;
+      font-weight: bold;
+    }
+  }
+
+  .matrix {
+    width: ($cell-size * 10) + 20px;
+    height: ($cell-size * 10) + 20px + $header-height + $footer-height;
+    text-align: left;
+    padding: 0 10px;
+
+    .matrix-row .matrix-cell {
+      width: $cell-size;
+      height: $cell-size;
+
+      .matrix-input {
+        width: $input-size;
+        height: $input-size;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .matrix-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: $footer-height;
+
+    text-align: right;
+    padding: 10px 20px;
+    border-top: 1px solid rgba(0,0,0,0.25);
+    background-color: rgba(0, 0, 0, 0.02);
+
+    .btn {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+}

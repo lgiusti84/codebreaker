@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class StatsControllerTest {
@@ -23,20 +24,20 @@ public class StatsControllerTest {
 	private MockMvc mockMvc;
 
 	@Before
-	public void setUp(){
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 	}
 
 	@Test
 	public void getStats() throws Exception {
-		Stats emptyStats = new Stats(1,1,0.5f);
+		Stats emptyStats = new Stats(1, 1, 0.5f);
 		when(carbonUnitDataService.countHomoSapiens()).thenReturn(1);
 		when(carbonUnitDataService.countHomoSuperior()).thenReturn(1);
 
 		mockMvc.perform(get("/stats/"))
-			.andExpect(status().isOk())
-			.andExpect(content().json(asJsonString(emptyStats)));
+				.andExpect(status().isOk())
+				.andExpect(content().json(asJsonString(emptyStats)));
 
 		verify(carbonUnitDataService, times(1)).countHomoSapiens();
 		verify(carbonUnitDataService, times(1)).countHomoSuperior();
@@ -49,8 +50,7 @@ public class StatsControllerTest {
 		when(carbonUnitDataService.countHomoSuperior()).thenReturn(0);
 
 		mockMvc.perform(get("/stats/"))
-			.andExpect(status().isOk())
-			.andExpect(content().string("There are no records in our database."));
+				.andExpect(status().isNoContent());
 
 		verify(carbonUnitDataService, times(1)).countHomoSapiens();
 		verify(carbonUnitDataService, times(1)).countHomoSuperior();
@@ -59,9 +59,9 @@ public class StatsControllerTest {
 
 	@Test
 	public void resetStats() throws Exception {
-		mockMvc.perform(get("/stats/reset"))
-			.andExpect(status().isMovedPermanently())
-			.andExpect(redirectedUrl("/stats/"));
+		mockMvc.perform(put("/stats/reset/"))
+				.andExpect(status().isMovedPermanently())
+				.andExpect(redirectedUrl("/stats/"));
 
 		verify(carbonUnitDataService, times(1)).deleteAll();
 		verifyNoMoreInteractions(carbonUnitDataService);
