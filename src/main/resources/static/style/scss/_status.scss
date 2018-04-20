@@ -1,15 +1,11 @@
 $bar-height: 50px;
 
-.status-row {
-  border-bottom-left-radius: $bar-height;
-  border-bottom-right-radius-radius: $bar-height;
-  overflow: hidden;
-}
 status-bar {
   box-shadow: inset 4px 4px 10px #aaa;
   background: #dfdfdf;
   height: $bar-height;
   line-height: $bar-height;
+  overflow: hidden;
 }
 
 .status {

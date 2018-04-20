@@ -8,6 +8,8 @@ window.onload = function() {
             if (nextInput) {
                 nextInput.select();
             }
+        } else {
+            this.select();
         }
     }).on('click', '.matrix-input', function() {
         this.select();

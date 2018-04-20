@@ -1,9 +1,9 @@
 <form id="dnaMatrix" name="dnaMatrixForm" novalidate>
     <div class="matrix-container">
         <div class="matrix-header">
-            <button ng-click="increaseMatrixSize()" class="btn btn-outline-primary">+</button>
-            <h3 class="matrix-row-counter">{{ matrix.length }}</h3>
             <button ng-click="decreaseMatrixSize()" class="btn btn-outline-primary">-</button>
+            <h3 class="matrix-row-counter">{{ matrix.length }}</h3>
+            <button ng-click="increaseMatrixSize()" class="btn btn-outline-primary">+</button>
         </div>
         <div class="matrix">
             <div ng-repeat="line in matrix" class="matrix-row">
@@ -13,15 +13,11 @@
                 </div>
             </div>
         </div>
-        <div class="matrix-footer row no-padding">
-            <div class="col-sm-6 no-padding">
-                <input type="submit" value="TEST" class="btn btn-primary" ng-disabled="dnaMatrixForm.$invalid"
-                       ng-click="dnaMatrixForm.$valid && sendDna(); dnaMatrixForm.$setPristine();"/>
-            </div>
-            <div class="col-sm-6 no-padding">
-                <input type="button" value="RESET" class="btn btn-secondary"
+        <div class="matrix-footer">
+                <input type="submit" value="TEST" class="btn btn-primary w-50" ng-disabled="dnaMatrixForm.$invalid"
+                       ng-click="dnaMatrixForm.$valid && sendDna(); dnaMatrixForm.$setPristine();"
+                /><input type="button" value="RESET" class="btn btn-secondary w-50"
                        ng-click="resetForm(); dnaMatrixForm.$setPristine();"/>
-            </div>
         </div>
     </div>
 </form>

@@ -7,9 +7,11 @@ $footer-height: 40px;
   text-align: left;
   padding: 5px 16px;
 }
+
 .matrix-container {
   position: relative;
   width: 100%;
+  height: ($cell-size * 10) + 20px + $header-height + $footer-height;
 
   .matrix-header {
     height: $header-height;
@@ -30,10 +32,9 @@ $footer-height: 40px;
   }
 
   .matrix {
-    width: ($cell-size * 10) + 20px;
-    height: ($cell-size * 10) + 20px + $header-height + $footer-height;
+    height: ($cell-size * 10) + 20px;
     text-align: left;
-    padding: 0 10px;
+    padding: 10px 25px;
 
     .matrix-row .matrix-cell {
       width: $cell-size;
@@ -54,15 +55,19 @@ $footer-height: 40px;
     bottom: 0;
     height: $footer-height;
 
-    text-align: right;
-    padding: 10px 20px;
-    border-top: 1px solid rgba(0,0,0,0.25);
+    padding: 0;
     background-color: rgba(0, 0, 0, 0.02);
 
     .btn {
-      width: 100%;
       height: 100%;
       border-radius: 0;
     }
+  }
+}
+
+@media (min-width: 768px) {
+  .matrix-container .matrix {
+    width: ($cell-size * 10) + 20px;
+    padding: 10px;
   }
 }

@@ -35,22 +35,20 @@
     <meta name="msapplication-square310x310logo" content="/resources/favicon/mstile-310x310.png" />
 </head>
 <body ng-controller="dnaController" class="text-center">
-    <canvas id="canvas"></canvas>
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-        <header class="masthead mb-auto"></header>
+    <canvas id="canvas" class="d-none d-md-block"></canvas>
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column no-padding">
+        <header class="masthead mb-auto d-none d-md-block "></header>
 
         <main role="main" class="inner cover">
-            <div class="card" style="min-width: 520px;">
+            <div class="card">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6" id="magnetoImageHolder">&nbsp;</div>
+                    <div class="d-none d-md-block col-md-6" id="magnetoImageHolder">&nbsp;</div>
                     <div class="col-sm-12 col-md-6 no-padding">
                         <h3 class="cover-heading">Analice su ADN</h3>
                         <matrix-input></matrix-input>
                     </div>
                 </div>
-                <div class="row status-row">
-                    <status-bar class="col-sm-12"></status-bar>
-                </div>
+                <status-bar></status-bar>
             </div>
         </main>
 
