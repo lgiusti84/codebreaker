@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SquareStringArrayReorganizer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">codebreaker</a> &gt; <a href="index.source.html" class="el_package">exam.luisgiusti.codebreaker.utils</a> &gt; <span class="el_source">SquareStringArrayReorganizer.java</span></div><h1>SquareStringArrayReorganizer.java</h1><pre class="source lang-java linenums">package exam.luisgiusti.codebreaker.utils;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SquareStringArrayReorganizer {
+
+	private SquareStringArrayReorganizer() {}
+
+	public static List&lt;String&gt; rotate(String[] input) {
+<span class="fc" id="L12">		char[][] matrix = stringArrayToCharMatrix(input);</span>
+<span class="fc" id="L13">		matrix = rotateMatrix(matrix);</span>
+<span class="fc" id="L14">		return charMatrixToStringList(matrix);</span>
+	}
+
+	public static List&lt;String&gt; diagonalize(String[] input) {
+<span class="fc" id="L18">		char[][] matrix = stringArrayToCharMatrix(input);</span>
+<span class="fc" id="L19">		List&lt;String&gt; tempList = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L21">		tempList.addAll(getDiagnolasDownwardsToRight(matrix));</span>
+<span class="fc" id="L22">		matrix = rotateMatrix(matrix);</span>
+<span class="fc" id="L23">		tempList.addAll(getDiagnolasDownwardsToRight(matrix));</span>
+
+<span class="fc" id="L25">		return tempList;</span>
+	}
+
+	private static List&lt;String&gt; getDiagnolasDownwardsToRight(char[][] matrix) {
+<span class="fc" id="L29">		int length = matrix.length;</span>
+<span class="fc" id="L30">		List&lt;String&gt; tempList = new ArrayList&lt;&gt;();</span>
+		StringBuilder rowMovingSb;
+		StringBuilder colMovingSb;
+<span class="fc bfc" id="L33" title="All 2 branches covered.">		for (int pos = 0; pos &lt; length; pos++) {</span>
+<span class="fc" id="L34">			rowMovingSb = new StringBuilder();</span>
+<span class="fc" id="L35">			colMovingSb = new StringBuilder();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">			for (int dif = 0; pos + dif &lt; length; dif++) {</span>
+<span class="fc" id="L37">				rowMovingSb.append(matrix[dif][pos + dif]);</span>
+<span class="fc" id="L38">				colMovingSb.append(matrix[pos + dif][dif]);</span>
+			}
+<span class="fc" id="L40">			tempList.add(rowMovingSb.toString());</span>
+<span class="fc" id="L41">			tempList.add(colMovingSb.toString());</span>
+		}
+<span class="fc" id="L43">		tempList.remove(0);</span>
+
+<span class="fc" id="L45">		return tempList;</span>
+	}
+
+	private static char[][] rotateMatrix(char[][] matrix) {
+<span class="fc" id="L49">		int length = matrix.length;</span>
+<span class="fc" id="L50">		char[][] temp = new char[length][length];</span>
+
+		int newCol;
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		for (int row = 0; row &lt; length; row++) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">			for (int col = 0; col &lt; length; col++) {</span>
+<span class="fc" id="L55">				newCol = (-1) * (col - length + 1);</span>
+<span class="fc" id="L56">				temp[newCol][row] = matrix[row][col];</span>
+			}
+		}
+<span class="fc" id="L59">		return temp;</span>
+	}
+
+	private static char[][] stringArrayToCharMatrix(String[] input) {
+<span class="fc" id="L63">		int length = input.length;</span>
+<span class="fc" id="L64">		char[][] matrix = new char[length][length];</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		for (int row = 0; row &lt; length; row++) {</span>
+<span class="fc" id="L66">			matrix[row] = input[row].toCharArray();</span>
+		}
+<span class="fc" id="L68">		return matrix;</span>
+	}
+
+	private static List&lt;String&gt; charMatrixToStringList(char[][] input) {
+<span class="fc" id="L72">		List&lt;String&gt; strList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		for (char[] inputRow : input) {</span>
+<span class="fc" id="L74">			strList.add(new String(inputRow));</span>
+		}
+<span class="fc" id="L76">		return strList;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

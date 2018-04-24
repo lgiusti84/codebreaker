@@ -2,6 +2,7 @@ package exam.luisgiusti.codebreaker.services;
 
 import exam.luisgiusti.codebreaker.TestConstants;
 import exam.luisgiusti.codebreaker.domain.CarbonUnit;
+import exam.luisgiusti.codebreaker.domain.Stats;
 import exam.luisgiusti.codebreaker.repositories.CarbonUnitsRepository;
 import exam.luisgiusti.codebreaker.services.impls.CarbonUnitDataServiceRepoImpl;
 import org.junit.Before;
@@ -12,8 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class CarbonUnitDataServiceTest {
@@ -39,7 +39,7 @@ public class CarbonUnitDataServiceTest {
 
 	@Test
 	public void countHomoSuperior() {
-		when(repo.countAllByIsHomoSuperior(anyBoolean())).thenReturn(1);
+		when(repo.countAllByIsHomoSuperior(anyBoolean())).thenReturn(1L);
 
 		assertEquals(1, service.countHomoSuperior());
 		verify(repo, times(1)).countAllByIsHomoSuperior(anyBoolean());
@@ -47,7 +47,7 @@ public class CarbonUnitDataServiceTest {
 
 	@Test
 	public void countHomoSapiens() {
-		when(repo.countAllByIsHomoSuperior(anyBoolean())).thenReturn(1);
+		when(repo.countAllByIsHomoSuperior(anyBoolean())).thenReturn(1L);
 
 		assertEquals(1, service.countHomoSapiens());
 		verify(repo, times(1)).countAllByIsHomoSuperior(anyBoolean());
@@ -84,7 +84,6 @@ public class CarbonUnitDataServiceTest {
 		cu.setDna(dna);
 
 		CarbonUnit savedCu = new CarbonUnit(1L, dna, true);
-		CarbonUnit result;
 
 		when(repo.save(any(CarbonUnit.class))).thenReturn(savedCu);
 		when(repo.existsByDna(any(String[].class))).thenReturn(true);
@@ -104,5 +103,39 @@ public class CarbonUnitDataServiceTest {
 
 		verify(repo, times(1)).deleteAll();
 		verifyNoMoreInteractions(repo);
+	}
+
+	@Test
+	public void getStats() {
+		long mutantCountMock = 40;
+		long humanCountMock = 100;
+
+		when(repo.countAllByIsHomoSuperior(true)).thenReturn(mutantCountMock);
+		when(repo.countAllByIsHomoSuperior(false)).thenReturn(humanCountMock);
+
+		Optional<Stats> optionalStats = service.getStats();
+		verify(repo, times(2)).countAllByIsHomoSuperior(any(boolean.class));
+		verifyNoMoreInteractions(repo);
+
+		assertTrue(optionalStats.isPresent());
+
+		Stats result = optionalStats.get();
+		assertEquals(mutantCountMock, result.getCountMutantDna());
+		assertEquals(humanCountMock, result.getCountHumanDna());
+	}
+
+	@Test
+	public void getEmptyStats() {
+		long mutantCountMock = 0;
+		long humanCountMock = 0;
+
+		when(repo.countAllByIsHomoSuperior(true)).thenReturn(mutantCountMock);
+		when(repo.countAllByIsHomoSuperior(false)).thenReturn(humanCountMock);
+
+		Optional<Stats> optionalStats = service.getStats();
+		verify(repo, times(2)).countAllByIsHomoSuperior(any(boolean.class));
+		verifyNoMoreInteractions(repo);
+
+		assertFalse(optionalStats.isPresent());
 	}
 }

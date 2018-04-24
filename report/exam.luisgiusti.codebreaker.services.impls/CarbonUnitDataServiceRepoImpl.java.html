@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CarbonUnitDataServiceRepoImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">codebreaker</a> &gt; <a href="index.source.html" class="el_package">exam.luisgiusti.codebreaker.services.impls</a> &gt; <span class="el_source">CarbonUnitDataServiceRepoImpl.java</span></div><h1>CarbonUnitDataServiceRepoImpl.java</h1><pre class="source lang-java linenums">package exam.luisgiusti.codebreaker.services.impls;
+
+import exam.luisgiusti.codebreaker.domain.CarbonUnit;
+import exam.luisgiusti.codebreaker.domain.Stats;
+import exam.luisgiusti.codebreaker.repositories.CarbonUnitsRepository;
+import exam.luisgiusti.codebreaker.services.CarbonUnitDataService;
+import exam.luisgiusti.codebreaker.services.DNAAnalyzerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@Profile({&quot;repo&quot;, &quot;default&quot;})
+public class CarbonUnitDataServiceRepoImpl implements CarbonUnitDataService {
+	private CarbonUnitsRepository repo;
+	private DNAAnalyzerService dnaAnalyzerService;
+
+	@Autowired
+<span class="fc" id="L21">	public CarbonUnitDataServiceRepoImpl(CarbonUnitsRepository repo, DNAAnalyzerService dnaAnalyzerService) {</span>
+<span class="fc" id="L22">		this.repo = repo;</span>
+<span class="fc" id="L23">		this.dnaAnalyzerService = dnaAnalyzerService;</span>
+<span class="fc" id="L24">	}</span>
+	
+	@Override
+	public boolean existsInDB(String[] dna) {
+<span class="fc" id="L28">		return repo.existsByDna(dna);</span>
+	}
+
+	@Override
+	public long countHomoSuperior() {
+<span class="fc" id="L33">		return repo.countAllByIsHomoSuperior(true);</span>
+	}
+
+	@Override
+	public long countHomoSapiens() {
+<span class="fc" id="L38">		return repo.countAllByIsHomoSuperior(false);</span>
+	}
+
+	@Override
+	public CarbonUnit saveCarbonUnit(CarbonUnit carbonUnit) {
+<span class="fc" id="L43">		String[] dna = carbonUnit.getDna();</span>
+		CarbonUnit result;
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		if(!existsInDB(dna)) {</span>
+<span class="fc" id="L46">			carbonUnit.setIsHomoSuperior(dnaAnalyzerService.isMutant(dna));</span>
+<span class="fc" id="L47">			result = repo.save(carbonUnit);</span>
+		} else {
+<span class="fc" id="L49">			result = repo.findByDna(dna).orElse(carbonUnit);</span>
+		}
+<span class="fc" id="L51">		return result;</span>
+	}
+
+	@Override
+	public void deleteAll() {
+<span class="fc" id="L56">		repo.deleteAll();</span>
+<span class="fc" id="L57">	}</span>
+
+	@Override
+	public Optional&lt;Stats&gt; getStats() {
+<span class="fc" id="L61">		long countMutants = countHomoSuperior();</span>
+<span class="fc" id="L62">		long countHumans = countHomoSapiens();</span>
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		if(countHumans + countMutants &gt; 0) {</span>
+<span class="fc" id="L65">			return Optional.of(new Stats(countMutants, countHumans));</span>
+		}
+<span class="fc" id="L67">		return Optional.empty();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

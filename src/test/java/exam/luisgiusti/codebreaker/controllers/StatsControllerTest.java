@@ -11,6 +11,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -31,29 +33,25 @@ public class StatsControllerTest {
 
 	@Test
 	public void getStats() throws Exception {
-		Stats emptyStats = new Stats(1, 1, 0.5f);
-		when(carbonUnitDataService.countHomoSapiens()).thenReturn(1);
-		when(carbonUnitDataService.countHomoSuperior()).thenReturn(1);
+		Stats stats = new Stats(1L, 1L);
+		when(carbonUnitDataService.getStats()).thenReturn(Optional.of(stats));
 
 		mockMvc.perform(get("/stats/"))
 				.andExpect(status().isOk())
-				.andExpect(content().json(asJsonString(emptyStats)));
+				.andExpect(content().json(asJsonString(stats)));
 
-		verify(carbonUnitDataService, times(1)).countHomoSapiens();
-		verify(carbonUnitDataService, times(1)).countHomoSuperior();
+		verify(carbonUnitDataService, times(1)).getStats();
 		verifyNoMoreInteractions(carbonUnitDataService);
 	}
 
 	@Test
 	public void getNoStats() throws Exception {
-		when(carbonUnitDataService.countHomoSapiens()).thenReturn(0);
-		when(carbonUnitDataService.countHomoSuperior()).thenReturn(0);
+		when(carbonUnitDataService.getStats()).thenReturn(Optional.empty());
 
 		mockMvc.perform(get("/stats/"))
 				.andExpect(status().isNoContent());
 
-		verify(carbonUnitDataService, times(1)).countHomoSapiens();
-		verify(carbonUnitDataService, times(1)).countHomoSuperior();
+		verify(carbonUnitDataService, times(1)).getStats();
 		verifyNoMoreInteractions(carbonUnitDataService);
 	}
 

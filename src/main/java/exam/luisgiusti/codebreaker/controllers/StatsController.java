@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/stats/")
 public class StatsController {
@@ -24,22 +26,16 @@ public class StatsController {
 
 	@GetMapping("")
 	public ResponseEntity getStats() {
-		int countMutants = carbonUnitDataService.countHomoSuperior();
-		int countHumans = carbonUnitDataService.countHomoSapiens();
+		Optional<Stats> optionalStats = carbonUnitDataService.getStats();
 
-		if(countHumans + countMutants > 0) {
-			float ratio = (float) countMutants / (countHumans + countMutants);
-
-			Stats mutantStats = new Stats(countMutants, countHumans, ratio);
-
+		if(optionalStats.isPresent()) {
 			return ResponseEntity
 					.status(HttpStatus.OK)
 					.contentType(MediaType.APPLICATION_JSON)
-					.body(mutantStats);
+					.body(optionalStats.get());
 		} else {
 			return ResponseEntity
 					.status(HttpStatus.NO_CONTENT)
-					.contentType(MediaType.APPLICATION_JSON)
 					.build();
 		}
 	}
