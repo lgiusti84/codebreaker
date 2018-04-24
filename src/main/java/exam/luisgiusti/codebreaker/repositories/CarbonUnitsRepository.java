@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface CarbonUnitsRepository extends CrudRepository<CarbonUnit, Long> {
 	Boolean existsByDna(String[] dna);
-	int countAllByIsHomoSuperior(Boolean isHomoSuperior);
+	long countAllByIsHomoSuperior(Boolean isHomoSuperior);
 	Optional<CarbonUnit> findByDna(String[] dna);
 }

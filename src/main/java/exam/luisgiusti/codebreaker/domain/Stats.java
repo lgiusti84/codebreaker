@@ -2,11 +2,19 @@ package exam.luisgiusti.codebreaker.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class Stats {
-	int countMutantDna;
-	int countHumanDna;
-	float ratio;
+	long countMutantDna;
+	long countHumanDna;
+
+	public float getRatio() {
+		if(countHumanDna + countMutantDna == 0) {
+			return 1f;
+		} else {
+			return countMutantDna / (float) countHumanDna;
+		}
+	}
 }
