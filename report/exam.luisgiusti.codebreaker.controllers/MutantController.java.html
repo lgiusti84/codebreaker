@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MutantController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">codebreaker</a> &gt; <a href="index.source.html" class="el_package">exam.luisgiusti.codebreaker.controllers</a> &gt; <span class="el_source">MutantController.java</span></div><h1>MutantController.java</h1><pre class="source lang-java linenums">package exam.luisgiusti.codebreaker.controllers;
+
+import com.fasterxml.jackson.annotation.JsonView;
+import exam.luisgiusti.codebreaker.domain.CarbonUnit;
+import exam.luisgiusti.codebreaker.domain.CarbonUnit.Input;
+import exam.luisgiusti.codebreaker.services.CarbonUnitDataService;
+import exam.luisgiusti.codebreaker.services.DNAAnalyzerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping(&quot;/mutant/&quot;)
+public class MutantController {
+	private DNAAnalyzerService dnaAnalyzer;
+	private CarbonUnitDataService dataService;
+
+	@Autowired
+<span class="fc" id="L24">	public MutantController(DNAAnalyzerService dnaAnalyzer, CarbonUnitDataService dataService) {</span>
+<span class="fc" id="L25">		this.dnaAnalyzer = dnaAnalyzer;</span>
+<span class="fc" id="L26">		this.dataService = dataService;</span>
+<span class="fc" id="L27">	}</span>
+
+	@PostMapping
+	@RequestMapping(&quot;&quot;)
+	public ResponseEntity checkMutant(@Valid @RequestBody @JsonView(Input.class) CarbonUnit carbonUnit) {
+<span class="fc" id="L32">		String[] dna = carbonUnit.getDna();</span>
+<span class="fc" id="L33">		boolean isMutant = dnaAnalyzer.isMutant(dna);</span>
+
+<span class="fc" id="L35">		carbonUnit.setIsHomoSuperior(isMutant);</span>
+<span class="fc" id="L36">		dataService.saveCarbonUnit(carbonUnit);</span>
+
+		HttpStatus status;
+		String body;
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		if(isMutant) {</span>
+<span class="fc" id="L41">			status = HttpStatus.OK;</span>
+<span class="fc" id="L42">			body = &quot;{\&quot;message\&quot;: \&quot;Welcome to the brotherhood fellow Mutant!\&quot;}&quot;;</span>
+		} else {
+<span class="fc" id="L44">			status = HttpStatus.FORBIDDEN;</span>
+<span class="fc" id="L45">			body = &quot;{\&quot;message\&quot;: \&quot;No humans allowed! We'll come for you later\&quot;}&quot;;</span>
+		}
+<span class="fc" id="L47">		return ResponseEntity</span>
+<span class="fc" id="L48">				.status(status)</span>
+<span class="fc" id="L49">				.contentType(MediaType.APPLICATION_JSON)</span>
+<span class="fc" id="L50">				.body(body);</span>
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity handleWrongType() {
+<span class="fc" id="L55">		HttpStatus status = HttpStatus.BAD_REQUEST;</span>
+<span class="fc" id="L56">		String body = &quot;{\&quot;message\&quot;: \&quot;You are a strange being, we have no quarrel with you (yet)\&quot;}&quot;;</span>
+<span class="fc" id="L57">		return ResponseEntity</span>
+<span class="fc" id="L58">				.status(status)</span>
+<span class="fc" id="L59">				.contentType(MediaType.APPLICATION_JSON)</span>
+<span class="fc" id="L60">				.body(body);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

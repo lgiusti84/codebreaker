@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+codebreaker,exam.luisgiusti.codebreaker.domain.converters,StringArrayToJsonStrConverter,11,21,0,0,6,5,0,3,0,3
+codebreaker,exam.luisgiusti.codebreaker.utils,SquareStringArrayReorganizer,0,191,0,12,0,37,0,12,0,6
+codebreaker,exam.luisgiusti.codebreaker.config,SecurityConfig,0,57,0,0,0,17,0,4,0,4
+codebreaker,exam.luisgiusti.codebreaker.domain,Stats,0,18,0,2,0,3,0,2,0,1
+codebreaker,exam.luisgiusti.codebreaker,CodebreakerApplication,5,3,0,0,2,1,1,1,1,1
+codebreaker,exam.luisgiusti.codebreaker.domain.constraints,DNAMatrixValidator,0,38,0,8,0,5,0,7,0,3
+codebreaker,exam.luisgiusti.codebreaker.controllers,StatsController,0,41,0,2,0,17,0,4,0,3
+codebreaker,exam.luisgiusti.codebreaker.controllers,MutantController,0,55,0,2,0,23,0,4,0,3
+codebreaker,exam.luisgiusti.codebreaker.services.impls,DNAAnalyzerServiceSimpleImpl,0,102,0,20,0,25,0,14,0,4
+codebreaker,exam.luisgiusti.codebreaker.services.impls,CarbonUnitDataServiceRepoImpl,0,83,0,4,0,20,0,9,0,7
+codebreaker,exam.luisgiusti.codebreaker.services.impls,DNAAnalyzerServiceRegexImpl,0,66,0,6,0,17,0,5,0,2
