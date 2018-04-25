@@ -1,14 +1,10 @@
 package exam.luisgiusti.codebreaker.repositories;
 
 import exam.luisgiusti.codebreaker.domain.CarbonUnit;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface CarbonUnitsRepository extends CrudRepository<CarbonUnit, Long> {
-	Boolean existsByDna(String[] dna);
+public interface CarbonUnitsRepository extends MongoRepository<CarbonUnit, String> {
 	long countAllByIsHomoSuperior(Boolean isHomoSuperior);
-	Optional<CarbonUnit> findByDna(String[] dna);
 }

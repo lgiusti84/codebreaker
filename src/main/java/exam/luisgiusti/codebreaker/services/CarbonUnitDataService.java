@@ -6,7 +6,6 @@ import exam.luisgiusti.codebreaker.domain.Stats;
 import java.util.Optional;
 
 public interface CarbonUnitDataService {
-	boolean existsInDB(String[] dna);
 	long countHomoSuperior();
 	long countHomoSapiens();
 	CarbonUnit saveCarbonUnit(CarbonUnit carbonUnit);

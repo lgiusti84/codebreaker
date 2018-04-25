@@ -7,19 +7,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataMongoTest
 public class CarbonUnitsRepositoryTest {
 	@Autowired
 	private CarbonUnitsRepository repo;
 	@Autowired
-	private TestEntityManager entityManager;
+	private MongoTemplate mongoTemplate;
+	
 	private static String[] mutantDna;
 	private static String[] humanDna;
 	private CarbonUnit human;
@@ -33,46 +36,49 @@ public class CarbonUnitsRepositoryTest {
 
 	@Before
 	public void setUp() {
-		entityManager.clear();
-		mutant = new CarbonUnit(null, mutantDna, true);
-		human = new CarbonUnit(null, humanDna, false);
+		mutant = new CarbonUnit(mutantDna, true);
+		human = new CarbonUnit(humanDna, false);
+
+		mongoTemplate.dropCollection(CarbonUnit.class);
+		mongoTemplate.createCollection(CarbonUnit.class);
 	}
 
 	@Test
-	public void existsMutantByDna() {
-		assertFalse(repo.existsByDna(mutantDna));
-
-		entityManager.persist(mutant);
-		entityManager.flush();
-		assertTrue(repo.existsByDna(mutantDna));
+	public void existsMutantById() {
+		testExistsCarbonUnit(mutant);
 	}
 
 	@Test
-	public void existsHumanByDna() {
-		assertFalse(repo.existsByDna(humanDna));
-
-		entityManager.persist(human);
-		entityManager.flush();
-		assertTrue(repo.existsByDna(humanDna));
+	public void existsHumanById() {
+		testExistsCarbonUnit(human);
 	}
 
-	@Test
-	public void findByDna() {
-		assertFalse(repo.findByDna(mutantDna).isPresent());
+	private void testExistsCarbonUnit(CarbonUnit unit) {
+		Optional<CarbonUnit> dbCU = repo.findById(unit.getId());
+		assertFalse(dbCU.isPresent());
 
-		entityManager.persist(mutant);
-		entityManager.flush();
+		repo.save(unit);
 
-		assertTrue(repo.findByDna(mutantDna).isPresent());
+		dbCU = repo.findById(unit.getId());
+		assertTrue(dbCU.isPresent());
 	}
+
+//	@Test
+//	public void findByDna() {
+//		assertFalse(repo.findById(mutant.getId()).isPresent());
+//
+//		repo.save(mutant);
+//
+//		assertTrue(repo.findById(mutant.getId()).isPresent());
+//	}
 
 	@Test
 	public void countAllByIsHomoSuperior() {
 		assertEquals(0, repo.countAllByIsHomoSuperior(true));
 		assertEquals(0, repo.countAllByIsHomoSuperior(false));
 
-		entityManager.persist(mutant);
-		entityManager.flush();
+		repo.save(mutant);
+
 		assertEquals(1, repo.countAllByIsHomoSuperior(true));
 		assertEquals(0, repo.countAllByIsHomoSuperior(false));
 	}
@@ -82,18 +88,21 @@ public class CarbonUnitsRepositoryTest {
 		assertEquals(0, repo.countAllByIsHomoSuperior(false));
 		assertEquals(0, repo.countAllByIsHomoSuperior(true));
 
-		entityManager.persist(human);
-		entityManager.flush();
+		repo.save(human);
+
 		assertEquals(1, repo.countAllByIsHomoSuperior(false));
 		assertEquals(0, repo.countAllByIsHomoSuperior(true));
 	}
 
-	@Test(expected = javax.persistence.PersistenceException.class)
+	@Test
 	public void exceptionOnAddingRepeatedDNA() {
-		entityManager.persist(mutant);
-		entityManager.flush();
-		CarbonUnit mutant2 = new CarbonUnit(null, mutant.getDna(), true);
-		entityManager.persist(mutant2);
-		entityManager.flush();
+		repo.save(mutant);
+		long count = repo.countAllByIsHomoSuperior(true);
+
+		CarbonUnit mutant2 = new CarbonUnit(mutant.getDna(), true);
+
+		repo.save(mutant2);
+
+		assertEquals(count, repo.countAllByIsHomoSuperior(true));
 	}
 }

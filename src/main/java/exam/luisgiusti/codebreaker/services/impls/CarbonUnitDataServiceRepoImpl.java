@@ -22,11 +22,6 @@ public class CarbonUnitDataServiceRepoImpl implements CarbonUnitDataService {
 		this.repo = repo;
 		this.dnaAnalyzerService = dnaAnalyzerService;
 	}
-	
-	@Override
-	public boolean existsInDB(String[] dna) {
-		return repo.existsByDna(dna);
-	}
 
 	@Override
 	public long countHomoSuperior() {
@@ -41,14 +36,8 @@ public class CarbonUnitDataServiceRepoImpl implements CarbonUnitDataService {
 	@Override
 	public CarbonUnit saveCarbonUnit(CarbonUnit carbonUnit) {
 		String[] dna = carbonUnit.getDna();
-		CarbonUnit result;
-		if(!existsInDB(dna)) {
-			carbonUnit.setIsHomoSuperior(dnaAnalyzerService.isMutant(dna));
-			result = repo.save(carbonUnit);
-		} else {
-			result = repo.findByDna(dna).orElse(carbonUnit);
-		}
-		return result;
+		carbonUnit.setIsHomoSuperior(dnaAnalyzerService.isMutant(dna));
+		return repo.save(carbonUnit);
 	}
 
 	@Override

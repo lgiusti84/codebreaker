@@ -29,13 +29,6 @@ public class CarbonUnitDataServiceTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	@Test
-	public void existsInDB() {
-		when(repo.existsByDna(any(String[].class))).thenReturn(true);
-
-		assertTrue(service.existsInDB(TestConstants.MUTANT_DNA));
-		verify(repo, times(1)).existsByDna(any(String[].class));
-	}
 
 	@Test
 	public void countHomoSuperior() {
@@ -56,46 +49,36 @@ public class CarbonUnitDataServiceTest {
 	@Test
 	public void saveCarbonUnit() {
 		String[] dna = TestConstants.MUTANT_DNA;
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
+		CarbonUnit cu = new CarbonUnit(dna, null);
 
-		CarbonUnit savedCu = new CarbonUnit(1L, dna, true);
+		CarbonUnit savedCu = new CarbonUnit(dna, true);
 
 		when(repo.save(any(CarbonUnit.class))).thenReturn(savedCu);
-		when(repo.existsByDna(any(String[].class))).thenReturn(false);
 		when(analyzerService.isMutant(any(String[].class))).thenReturn(true);
 
 		service.saveCarbonUnit(cu);
-//		CarbonUnit result = service.saveCarbonUnit(cu);
-//		assertArrayEquals(dna, result.getDna());
-//		assertNotNull(result.getId());
-//		assertNotNull(result.getIsHomoSuperior());
 
-		verify(repo, times(1)).existsByDna(any(String[].class));
 		verify(analyzerService, times(1)).isMutant(any(String[].class));
 		verify(repo, times(1)).save(any(CarbonUnit.class));
 		verifyNoMoreInteractions(repo, analyzerService);
 	}
 
-	@Test
-	public void saveExistingCarbonUnit() {
-		String[] dna = TestConstants.MUTANT_DNA;
-		CarbonUnit cu = new CarbonUnit();
-		cu.setDna(dna);
-
-		CarbonUnit savedCu = new CarbonUnit(1L, dna, true);
-
-		when(repo.save(any(CarbonUnit.class))).thenReturn(savedCu);
-		when(repo.existsByDna(any(String[].class))).thenReturn(true);
-		when(repo.findByDna(any(String[].class))).thenReturn(Optional.of(savedCu));
-		when(analyzerService.isMutant(any(String[].class))).thenReturn(true);
-
-		service.saveCarbonUnit(cu);
-
-		verify(repo, times(1)).existsByDna(any(String[].class));
-		verify(repo, times(1)).findByDna(any(String[].class));
-		verifyNoMoreInteractions(repo, analyzerService);
-	}
+//	@Test
+//	public void saveExistingCarbonUnit() {
+//		String[] dna = TestConstants.MUTANT_DNA;
+//		CarbonUnit cu = new CarbonUnit(dna, null);
+//
+//		CarbonUnit savedCu = new CarbonUnit(dna, true);
+//
+//		when(repo.save(any(CarbonUnit.class))).thenReturn(savedCu);
+//		when(analyzerService.isMutant(any(String[].class))).thenReturn(true);
+//
+//		service.saveCarbonUnit(cu);
+//
+//		verify(analyzerService, times(1)).isMutant(any(String[].class));
+//		verify(repo, times(1)).save(any(CarbonUnit.class));
+//		verifyNoMoreInteractions(repo, analyzerService);
+//	}
 
 	@Test
 	public void deleteAll() {

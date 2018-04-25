@@ -1,14 +1,31 @@
 package exam.luisgiusti.codebreaker.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor @NoArgsConstructor
 public class Stats {
 	long countMutantDna;
 	long countHumanDna;
+
+	public Stats() { }
+
+	public Stats(long countMutantDna, long countHumanDna) {
+		this.countMutantDna = countMutantDna;
+		this.countHumanDna = countHumanDna;
+	}
+
+	public long getCountMutantDna() {
+		return countMutantDna;
+	}
+
+	public void setCountMutantDna(long countMutantDna) {
+		this.countMutantDna = countMutantDna;
+	}
+
+	public long getCountHumanDna() {
+		return countHumanDna;
+	}
+
+	public void setCountHumanDna(long countHumanDna) {
+		this.countHumanDna = countHumanDna;
+	}
 
 	public float getRatio() {
 		if(countHumanDna + countMutantDna == 0) {

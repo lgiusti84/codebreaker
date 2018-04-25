@@ -37,7 +37,8 @@ public class MutantControllerTest {
 
 	@Test
 	public void mutantResponseOK() throws Exception {
-		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.MUTANT_DNA, true);
+		CarbonUnit mutant = new CarbonUnit(TestConstants.MUTANT_DNA, true);
+
 		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(true);
 		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
 
@@ -54,7 +55,7 @@ public class MutantControllerTest {
 
 	@Test
 	public void noMutantResponseForbidden() throws Exception {
-		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.HUMAN_DNA, true);
+		CarbonUnit mutant = new CarbonUnit(TestConstants.HUMAN_DNA, false);
 		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(false);
 		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
 
@@ -71,7 +72,7 @@ public class MutantControllerTest {
 
 	@Test
 	public void noMutantResponseForbidden2() throws Exception {
-		CarbonUnit mutant = new CarbonUnit(1L, TestConstants.HUMAN_DNA_2, true);
+		CarbonUnit mutant = new CarbonUnit(TestConstants.HUMAN_DNA_2, true);
 		when(dnaAnalyzer.isMutant(any(String[].class))).thenReturn(false);
 		when(dataService.saveCarbonUnit(any(CarbonUnit.class))).thenReturn(mutant);
 

@@ -28,7 +28,7 @@ public class MutantControllerIntegrationTest {
 
 	@Test
 	public void mutantResponseOK() throws Exception {
-		CarbonUnit cu = new CarbonUnit(null, TestConstants.MUTANT_DNA, null);
+		CarbonUnit cu = new CarbonUnit(TestConstants.MUTANT_DNA, null);
 
 		mockMvc.perform(
 				post("/mutant/")
@@ -39,7 +39,7 @@ public class MutantControllerIntegrationTest {
 
 	@Test
 	public void mutantResponseOK2() throws Exception {
-		CarbonUnit cu = new CarbonUnit(null, TestConstants.MUTANT_DNA_2, null);
+		CarbonUnit cu = new CarbonUnit(TestConstants.MUTANT_DNA_2, null);
 
 		mockMvc.perform(
 				post("/mutant/")
@@ -50,7 +50,7 @@ public class MutantControllerIntegrationTest {
 
 	@Test
 	public void noMutantResponseForbidden() throws Exception {
-		CarbonUnit cu = new CarbonUnit(null, TestConstants.HUMAN_DNA, null);
+		CarbonUnit cu = new CarbonUnit(TestConstants.HUMAN_DNA, null);
 
 		mockMvc.perform(
 				post("/mutant/")
@@ -61,7 +61,7 @@ public class MutantControllerIntegrationTest {
 
 	@Test
 	public void noMutantResponseForbidden2() throws Exception {
-		CarbonUnit cu = new CarbonUnit(null, TestConstants.HUMAN_DNA_2, null);
+		CarbonUnit cu = new CarbonUnit(TestConstants.HUMAN_DNA_2, null);
 
 		mockMvc.perform(
 				post("/mutant/")
@@ -72,7 +72,7 @@ public class MutantControllerIntegrationTest {
 
 	@Test
 	public void unbalancedDNAResponseBadRequest() throws Exception {
-		CarbonUnit cu = new CarbonUnit(null, TestConstants.UNBALANCED_DNA, null);
+		CarbonUnit cu = new CarbonUnit(TestConstants.UNBALANCED_DNA, null);
 
 		mockMvc.perform(
 				post("/mutant/")
@@ -83,7 +83,7 @@ public class MutantControllerIntegrationTest {
 
 	@Test
 	public void wrongDNACharacterResponseBadRequest() throws Exception {
-		CarbonUnit cu = new CarbonUnit(null, TestConstants.WRONG_CHARACTERS_DNA, null);
+		CarbonUnit cu = new CarbonUnit(TestConstants.WRONG_CHARACTERS_DNA, null);
 
 		mockMvc.perform(
 				post("/mutant/")
@@ -94,7 +94,7 @@ public class MutantControllerIntegrationTest {
 
 	@Test
 	public void wrongDNASizeResponseBadRequest() throws Exception {
-		CarbonUnit cu = new CarbonUnit(null, TestConstants.SMALL_DNA, null);
+		CarbonUnit cu = new CarbonUnit(TestConstants.SMALL_DNA, null);
 
 		mockMvc.perform(
 				post("/mutant/")
