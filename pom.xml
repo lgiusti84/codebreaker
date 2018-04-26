@@ -5,8 +5,8 @@
 
 	<groupId>exam.luisgiusti</groupId>
 	<artifactId>codebreaker</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>0.0.1</version>
+	<packaging>war</packaging>
 
 	<name>codebreaker</name>
 	<description>Magnet DNA code breaker - Luis Giusti exam</description>
@@ -49,19 +49,10 @@
 			<scope>test</scope>
         </dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>com.h2database</groupId>-->
-			<!--<artifactId>h2</artifactId>-->
-			<!--<scope>test</scope>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
@@ -107,11 +98,6 @@
 					<artifactId>spring-boot-devtools</artifactId>
 					<scope>runtime</scope>
 				</dependency>
-				<!--<dependency>-->
-					<!--<groupId>com.h2database</groupId>-->
-					<!--<artifactId>h2</artifactId>-->
-					<!--<scope>runtime</scope>-->
-				<!--</dependency>-->
 				<dependency>
 					<groupId>de.flapdoodle.embed</groupId>
 					<artifactId>de.flapdoodle.embed.mongo</artifactId>
@@ -128,16 +114,6 @@
 					<value>aws</value>
 				</property>
 			</activation>
-			<dependencies>
-				<!--<dependency>-->
-					<!--<groupId>mysql</groupId>-->
-					<!--<artifactId>mysql-connector-java</artifactId>-->
-				<!--</dependency>-->
-				<!--<dependency>-->
-					<!--<groupId>org.mongodb</groupId>-->
-					<!--<artifactId>mongo-java-driver</artifactId>-->
-				<!--</dependency>-->
-			</dependencies>
 		</profile>
 	</profiles>
 	<build>
