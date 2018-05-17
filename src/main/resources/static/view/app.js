@@ -82,13 +82,13 @@ app.controller('dnaController', ['$scope', 'dnaService', function ($scope, dnaSe
                 if(response.status === 200) {
                     let stats = response.data;
                     $scope.stats = stats;
-                    if(stats.countHumanDna !== 0) {
-                        $scope.stats.percent = stats.countMutantDna / (stats.countHumanDna + stats.countMutantDna);
+                    if(stats.count_human_dna !== 0) {
+                        $scope.stats.percent = stats.count_mutant_dna / (stats.count_human_dna + stats.count_mutant_dna);
                     } else {
                         $scope.stats.percent = 1;
                     }
                 } else {
-                    $scope.stats = { countMutantDna: 0, countHumanDna: 0, ratio: 0, percent: 0.5 };
+                    $scope.stats = { count_mutant_dna: 0, count_human_dna: 0, ratio: 0, percent: 0.5 };
                 }
                 updateStyles();
             }
@@ -97,7 +97,7 @@ app.controller('dnaController', ['$scope', 'dnaService', function ($scope, dnaSe
 
     function updateStyles() {
         let stats = $scope.stats;
-        let totalCount = stats.countMutantDna + stats.countHumanDna;
+        let totalCount = stats.count_mutant_dna + stats.count_human_dna;
         let mutantPercent = totalCount ? Math.floor(stats.percent * 100) : 0;
         let humanPercent = totalCount ? Math.ceil((1 - stats.percent) * 100) : 0;
         let leftStr = "";
