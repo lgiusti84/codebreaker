@@ -1,7 +1,11 @@
 package exam.luisgiusti.codebreaker.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Stats {
+	@JsonProperty("count_mutant_dna")
 	long countMutantDna;
+	@JsonProperty("count_human_dna")
 	long countHumanDna;
 
 	public Stats() { }
