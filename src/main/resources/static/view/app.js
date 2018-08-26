@@ -37,7 +37,8 @@ app.controller('dnaController', ['$scope', 'dnaService', function ($scope, dnaSe
         }
 
         dnaService.postDna(dna).then(
-            function success() {
+            function success(data) {
+
                 alert("Bienvenido hermano Mutante");
                 initForm();
             }, function error(response) {
