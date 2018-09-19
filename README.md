@@ -61,7 +61,7 @@ Luis J. Giusti
 
 ---
 
-## Extra (disponible en el branch 'jenkins')
+##Extra
 
 Se agrego una interfaz grafica simple para analizar y ver los resultados provistos por el API
 No se implemento graficamente la funcion que resetea los datos de la base (hay que acceder por el API, ver mas arriba).
