@@ -26,9 +26,9 @@ El API REST solicitado está disponible en http://meli.giusti.net.ar/
   * Respuesta: 200 OK
   * Acciones: devuelve las estadisticas de cantidad de mutantes y humanos en la base de datos (si es que los hay)
 
-* /stats/reset/
-  * Tipo: PUT
-  * Acciones: borra los registros de la tabla que contiene los datos de mutantes/humanos y redirecciona a _/stats/_
+* /stats/
+  * Tipo: DELETE
+  * Acciones: borra los registros de la tabla que contiene los datos de mutantes/humanos y redirecciona a _/stats/_ (GET)
   * Seguridad: _Basic Auth_
     * **Usuario: admin**
     * **password: admin**
@@ -48,10 +48,10 @@ Ej:
 ### Tecnologias y servicios utilizados:
 Se utilizó **Java** como el lenguaje de programacion utilizando **Spring Boot 2**.
 Los reportes de test coverage  hechos con **JaCoCo** están en la carpeta report.
-Project Managment: apache **Maven**
+Project Management: apache **Maven**
 
 La aplicación está subida a **AWS EC2** y tiene su base alojada en  **RDS de Amazon**, la misma utiliza **mySQL**.
-La versión de la Aplicacion que está subida en el server es la que está en el branch _Jenkins_.
+La versión de la Aplicacion que está subida en el server es la que está en el branch _develop_.
 El DNS utilizado es el Route 53 de Amazon.
 
 ### Autor
@@ -61,9 +61,11 @@ Luis J. Giusti
 
 ---
 
-##Extra
+## Extra (disponible en el branch 'jenkins')
 
 Se agrego una interfaz grafica simple para analizar y ver los resultados provistos por el API
-No se implemento la funcion que resetea los datos de la base (hay que acceder por el API, ver mas arriba).
+No se implemento graficamente la funcion que resetea los datos de la base (hay que acceder por el API, ver mas arriba).
 
-La misma se puede visitar en el directorio root, la version online esta en: [link](http://meli.giusti.net.ar/)
+La misma se puede visitar accediendo a el directorio root, la version online esta en: [link](http://meli.giusti.net.ar/).
+
+Hay una aplicacion muy simple realizada para Android disponible en: [link](https://play.google.com/apps/internaltest/4698916172504246706)
